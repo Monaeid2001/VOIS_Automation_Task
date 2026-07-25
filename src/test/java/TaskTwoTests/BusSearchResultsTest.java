@@ -2,8 +2,7 @@ package TaskTwoTests;
 
 import TaskTwoPages.BusSearchResultsPage;
 import TaskTwoPages.HomePage;
-import TaskTwoPages.LoginPage;
-import org.openqa.selenium.By;
+import TaskTwoPages.SeatsSelection;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -12,17 +11,17 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class HomeTest {
+public class BusSearchResultsTest {
     WebDriver driver;
     HomePage homePage;
+    SeatsSelection seatsSelection;
     BusSearchResultsPage busSearchResultsPage;
 
     @Test
-    public void testHomePage() {
+    public void testBusSearchResults() {
         homePage = new HomePage(driver);
-        busSearchResultsPage =
-                homePage
-                        .chooseEnglish()
+        seatsSelection =
+                homePage.chooseEnglish()
                         .clickLoginRegisterBtn()
                         .login("mona.eid.yiehia@gmail.com", "Mm@123456")
                         .chooseDepartureCity("Alexandria")
@@ -30,11 +29,13 @@ public class HomeTest {
                         .chooseArrivalCity("Cairo")
                         .chooseArrivalStation("Tahrir")
                         .chooseTravelDate("August 2026", "15")
-                        .clickSearchBtn();
-        Assert.assertTrue(busSearchResultsPage.getTravelAndArrivalStations("Miamy").contains("Miamy"), "Departure station doesn't match expected value");
-        Assert.assertTrue(busSearchResultsPage.getTravelAndArrivalStations("Tahrir").contains("Tahrir"), "Arrival station doesn't match expected value");
-
+                        .clickSearchBtn()
+                .clickChooseTripBtn()
+                .clickBookingTripBtn();
+        Assert.assertTrue(seatsSelection.getDate().contains("15 Aug 2026"), "Date doesn't match expected value");
+        Assert.assertTrue(seatsSelection.getCurrentUrl().contains("bookingStepOne"), "URL doesn't contain expected value");
     }
+
     @BeforeMethod
     public void setUp() {
         driver = new EdgeDriver();
@@ -43,6 +44,6 @@ public class HomeTest {
     }
     @AfterMethod
     public void tearDown() {
-       driver.quit();
+          driver.quit();
     }
 }

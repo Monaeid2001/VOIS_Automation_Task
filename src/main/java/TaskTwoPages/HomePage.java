@@ -1,6 +1,7 @@
 package TaskTwoPages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -33,13 +34,23 @@ public class HomePage {
     public HomePage(WebDriver driver) {
         this.driver = driver;
     }
+
     public LoginPage clickLoginRegisterBtn(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(
-                ExpectedConditions.elementToBeClickable(loginRegisterBtn)
-        ).click();
-        return new LoginPage(driver);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(6));
+        int attempts = 0;
+        while (attempts < 3) {
+            try {
+                new WebDriverWait(driver, Duration.ofSeconds(5))
+                        .until(ExpectedConditions.elementToBeClickable(loginRegisterBtn))
+                        .click();
+                return new LoginPage(driver);
+            } catch (StaleElementReferenceException e) {
+                attempts++;
+            }
+        }
+        throw new RuntimeException("Failed to click element after retries: " + loginRegisterBtn);
     }
+
     public HomePage chooseEnglish(){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(
@@ -121,9 +132,9 @@ public class HomePage {
         ).click();
         return new BusSearchResultsPage(driver);
     }
-    public boolean isUserLoggedIn(){
+    public boolean isAccountDisplayed(){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-      return   wait.until(
+      return  wait.until(
                 ExpectedConditions.visibilityOfElementLocated(myAccountBtn)
         ).isDisplayed();
     }

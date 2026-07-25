@@ -1,7 +1,6 @@
 package TaskTwoTests;
 
 import TaskTwoPages.HomePage;
-import TaskTwoPages.LoginPage;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -10,24 +9,19 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class LoginTest {
+public class RegisterTest {
     WebDriver driver;
     HomePage homePage;
     @Test
-    public void validLoginTest() {
+    public void registerTest(){
         homePage = new HomePage(driver);
-        homePage =
-             homePage.chooseEnglish()
-                     .clickLoginRegisterBtn()
-                     .login("mona.eid.yiehia@gmail.com","Mm@123456");
-        Assert.assertTrue(homePage.isAccountDisplayed(), "User is not logged in.");
+                       homePage.chooseEnglish()
+                        .clickLoginRegisterBtn()
+                        .clickRegisterBtn()
+                        .register("monmon","1155900220","monaeid5858@gmail.com","Mm@123456","Mm@123456");
+        Assert.assertTrue(homePage.isAccountDisplayed(), "User is not registered.");
 
     }
-    public void inValidLoginTest(){
-
-    }
-
-
 
     @BeforeMethod
     public void setUp() {

@@ -18,7 +18,9 @@ public class HomeTest
     @Test
     public void checkDealToday() {
         homePage = new HomePage(driver);
-         todaysDeals = homePage.ClickOnDismissButton().clickOnTodaysDeals();
+         todaysDeals = homePage
+                 .ClickOnDismissButton()
+                 .clickOnTodaysDeals();
         Assert.assertTrue(driver.getTitle().contains("Today's Deals"));
       //  homePage.selectMinimumDiscount(10);
     }

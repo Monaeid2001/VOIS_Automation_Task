@@ -40,8 +40,8 @@ public class HomePage {
         int attempts = 0;
         while (attempts < 3) {
             try {
-                new WebDriverWait(driver, Duration.ofSeconds(5))
-                        .until(ExpectedConditions.elementToBeClickable(loginRegisterBtn))
+                new WebDriverWait(driver, Duration.ofSeconds(5));
+                       wait .until(ExpectedConditions.elementToBeClickable(loginRegisterBtn))
                         .click();
                 return new LoginPage(driver);
             } catch (StaleElementReferenceException e) {

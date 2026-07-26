@@ -4,19 +4,23 @@ import TaskTwoPages.CreditCardPaymentPage;
 import TaskTwoPages.HomePage;
 import TaskTwoPages.WalletPaymentPage;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import utils.JsonReader;
 
 public class PaymentMethodTest {
     WebDriver driver;
     HomePage homePage;
     CreditCardPaymentPage creditCardPaymentPage;
     WalletPaymentPage walletPaymentPage;
+    JsonReader testData;
 
 
     @Test
@@ -25,18 +29,18 @@ public class PaymentMethodTest {
         creditCardPaymentPage =
                 homePage.chooseEnglish()
                         .clickLoginRegisterBtn()
-                        .login("monaeid5858@gmail.com", "Mm@123456")
-                        .chooseDepartureCity("Alexandria")
-                        .chooseDepartureStation("Miamy")
-                        .chooseArrivalCity("Cairo")
-                        .chooseArrivalStation("Tahrir")
-                        .chooseTravelDate("August 2026", "15")
+                        .login(testData.getJsonData("email"), testData.getJsonData("password"))
+                        .chooseDepartureCity(testData.getJsonData("busSearch.departureCity"))
+                        .chooseDepartureStation(testData.getJsonData("busSearch.departureStation"))
+                        .chooseArrivalCity(testData.getJsonData("busSearch.arrivalCity"))
+                        .chooseArrivalStation(testData.getJsonData("busSearch.arrivalStation"))
+                        .chooseTravelDate(testData.getJsonData("busSearch.travelMonthYear"), testData.getJsonData("busSearch.travelDay"))
                         .clickSearchBtn()
                         .clickChooseTripBtn()
                         .clickBookingTripBtn()
                         .clickConfirmSeatBtn()
                         .chooseCreditCardPaymentOption()
-                        .enterCreditCardDetails("5555 5555 5555 4444","Tester","12","2027","123")
+                        .enterCreditCardDetails(testData.getJsonData("card.number"), testData.getJsonData("card.name"), testData.getJsonData("card.expiryMonth"), testData.getJsonData("card.expiryYear"),testData.getJsonData("card.cvv"))
                         .acceptTermsAndConditions();
         Assert.assertEquals(creditCardPaymentPage.getCreditCardPaymentHeader(), "Credit Cards", "Credit card payment header does not match expected value.");
 
@@ -47,12 +51,12 @@ public class PaymentMethodTest {
         walletPaymentPage =
         homePage.chooseEnglish()
                 .clickLoginRegisterBtn()
-                .login("monaeid5858@gmail.com","Mm@123456")
-                .chooseDepartureCity("Alexandria")
-                .chooseDepartureStation("Miamy")
-                .chooseArrivalCity("Cairo")
-                .chooseArrivalStation("Tahrir")
-                .chooseTravelDate("August 2026", "15")
+                .login(testData.getJsonData("email"), testData.getJsonData("password"))
+                .chooseDepartureCity(testData.getJsonData("busSearch.departureCity"))
+                .chooseDepartureStation(testData.getJsonData("busSearch.departureStation"))
+                .chooseArrivalCity(testData.getJsonData("busSearch.arrivalCity"))
+                .chooseArrivalStation(testData.getJsonData("busSearch.arrivalStation"))
+                .chooseTravelDate(testData.getJsonData("busSearch.travelMonthYear"),  testData.getJsonData("busSearch.travelDay"))
                 .clickSearchBtn()
                 .clickChooseTripBtn()
                 .clickBookingTripBtn()
@@ -63,10 +67,15 @@ public class PaymentMethodTest {
         Assert.assertTrue(walletPaymentPage.getBookingCode().contains("Booking Code"), "Booking code is not displayed.");
 
     }
+    @BeforeClass
+    public void precondition() {
+        testData = new JsonReader("payment-data");
+    }
 @BeforeMethod
 public void setUp() {
     EdgeOptions options = new EdgeOptions();
     options.addArguments("--disable-notifications");
+    options.setPageLoadStrategy(PageLoadStrategy.EAGER);
     driver = new EdgeDriver(options);
     driver.navigate().to("https://go-bus.com/");
     driver.manage().window().setSize(new Dimension(1024, 768));

@@ -5,17 +5,22 @@ import TaskTwoPages.HomePage;
 import TaskTwoPages.LoginPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import utils.JsonReader;
 
 public class HomeTest {
     WebDriver driver;
     HomePage homePage;
     BusSearchResultsPage busSearchResultsPage;
+    JsonReader testData;
 
     @Test
     public void testHomePage() {
@@ -24,20 +29,27 @@ public class HomeTest {
                 homePage
                         .chooseEnglish()
                         .clickLoginRegisterBtn()
-                        .login("mona.eid.yiehia@gmail.com", "Mm@123456")
-                        .chooseDepartureCity("Alexandria")
-                        .chooseDepartureStation("Miamy")
-                        .chooseArrivalCity("Cairo")
-                        .chooseArrivalStation("Tahrir")
-                        .chooseTravelDate("August 2026", "15")
+                        .login(testData.getJsonData("email"), testData.getJsonData("password"))
+                        .chooseDepartureCity(testData.getJsonData("busSearch.departureCity"))
+                        .chooseDepartureStation(testData.getJsonData("busSearch.departureStation"))
+                        .chooseArrivalCity(testData.getJsonData("busSearch.arrivalCity"))
+                        .chooseArrivalStation(testData.getJsonData("busSearch.arrivalStation"))
+                        .chooseTravelDate(testData.getJsonData("busSearch.travelMonthYear"), testData.getJsonData("busSearch.travelDay"))
                         .clickSearchBtn();
         Assert.assertTrue(busSearchResultsPage.getTravelAndArrivalStations("Miamy").contains("Miamy"), "Departure station doesn't match expected value");
         Assert.assertTrue(busSearchResultsPage.getTravelAndArrivalStations("Tahrir").contains("Tahrir"), "Arrival station doesn't match expected value");
 
     }
+    @BeforeClass
+    public void precondition() {
+        testData = new JsonReader("booking-data");
+    }
     @BeforeMethod
     public void setUp() {
-        driver = new EdgeDriver();
+        EdgeOptions options = new EdgeOptions();
+        options.addArguments("--disable-notifications");
+        options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+        driver = new EdgeDriver(options);
         driver.navigate().to("https://go-bus.com/");
         driver.manage().window().setSize(new Dimension(1024, 768));
     }

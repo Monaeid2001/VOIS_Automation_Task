@@ -14,7 +14,6 @@ public class PaymentMethodTest extends BaseTest {
 
     @Test
     public void creditCardPaymentMethodTest() {
-        homePage = new HomePage(driver);
         creditCardPaymentPage =
                 homePage.chooseEnglish()
                         .clickLoginRegisterBtn()
@@ -36,7 +35,6 @@ public class PaymentMethodTest extends BaseTest {
     }
     @Test
     public void walletPaymentMethodTest() {
-        homePage = new HomePage(driver);
         walletPaymentPage =
         homePage.chooseEnglish()
                 .clickLoginRegisterBtn()

@@ -20,7 +20,6 @@ public class HomeTest extends BaseTest {
     BusSearchResultsPage busSearchResultsPage;
     @Test
     public void testHomePage() {
-        homePage = new HomePage(driver);
         busSearchResultsPage =
                 homePage
                         .chooseEnglish()

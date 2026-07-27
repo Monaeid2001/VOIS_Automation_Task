@@ -11,7 +11,6 @@ public class SeatSelectionTest extends BaseTest {
     PaymentMethodPage paymentMethodPage;
     @Test
     public void seatSelectionTest(){
-        homePage = new HomePage(driver);
         paymentMethodPage =
                 homePage.chooseEnglish()
                         .clickLoginRegisterBtn()

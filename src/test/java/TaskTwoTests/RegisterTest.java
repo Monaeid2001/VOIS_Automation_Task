@@ -10,7 +10,7 @@ public class RegisterTest extends BaseTest {
 
     @Test
     public void registerTest(){
-        homePage = new HomePage(driver);
+        homePage=
                        homePage.chooseEnglish()
                         .clickLoginRegisterBtn()
                         .clickRegisterBtn()

@@ -20,7 +20,6 @@ public class BusSearchResultsTest extends BaseTest {
 
     @Test
     public void testBusSearchResults() {
-        homePage = new HomePage(driver);
         seatsSelection =
                 homePage.chooseEnglish()
                         .clickLoginRegisterBtn()

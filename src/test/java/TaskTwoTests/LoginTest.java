@@ -11,7 +11,6 @@ public class LoginTest extends BaseTest {
     LoginPage loginPage;
     @Test
     public void validLoginTest() {
-        homePage = new HomePage(driver);
         homePage =
              homePage.chooseEnglish()
                      .clickLoginRegisterBtn()
@@ -21,7 +20,7 @@ public class LoginTest extends BaseTest {
     }
     @Test
     public void inValidLoginTest(){
-        homePage = new HomePage(driver);
+     //   homePage = new HomePage(driver);
         loginPage =
                 homePage.chooseEnglish()
                         .clickLoginRegisterBtn()

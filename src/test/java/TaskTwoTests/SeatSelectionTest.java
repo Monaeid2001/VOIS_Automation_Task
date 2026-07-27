@@ -9,7 +9,6 @@ import utils.JsonReader;
 
 public class SeatSelectionTest extends BaseTest {
     PaymentMethodPage paymentMethodPage;
-    JsonReader testData;
     @Test
     public void seatSelectionTest(){
         homePage = new HomePage(driver);

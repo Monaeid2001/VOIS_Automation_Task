@@ -11,8 +11,6 @@ import utils.JsonReader;
 public class PaymentMethodTest extends BaseTest {
     CreditCardPaymentPage creditCardPaymentPage;
     WalletPaymentPage walletPaymentPage;
-    JsonReader testData;
-
 
     @Test
     public void creditCardPaymentMethodTest() {

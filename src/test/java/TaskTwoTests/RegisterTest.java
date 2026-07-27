@@ -8,7 +8,6 @@ import utils.JsonReader;
 
 public class RegisterTest extends BaseTest {
 
-    JsonReader testData;
     @Test
     public void registerTest(){
         homePage = new HomePage(driver);

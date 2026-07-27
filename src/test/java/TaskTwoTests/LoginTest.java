@@ -9,7 +9,6 @@ import utils.JsonReader;
 
 public class LoginTest extends BaseTest {
     LoginPage loginPage;
-    JsonReader testData;
     @Test
     public void validLoginTest() {
         homePage = new HomePage(driver);

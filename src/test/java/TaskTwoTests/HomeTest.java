@@ -17,10 +17,7 @@ import org.testng.annotations.Test;
 import utils.JsonReader;
 
 public class HomeTest extends BaseTest {
-
     BusSearchResultsPage busSearchResultsPage;
-    JsonReader testData;
-
     @Test
     public void testHomePage() {
         homePage = new HomePage(driver);

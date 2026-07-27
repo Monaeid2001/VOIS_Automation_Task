@@ -17,7 +17,6 @@ import utils.JsonReader;
 
 public class BusSearchResultsTest extends BaseTest {
     SeatsSelection seatsSelection;
-    JsonReader testData;
 
     @Test
     public void testBusSearchResults() {

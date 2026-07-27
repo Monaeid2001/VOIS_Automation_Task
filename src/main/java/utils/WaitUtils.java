@@ -11,7 +11,8 @@ import java.time.Duration;
 public class WaitUtils {
     private final WebDriverWait wait;
     public WaitUtils(WebDriver driver){
-        this.wait= new WebDriverWait(driver, Duration.ofSeconds(5));
+        long timeoutInSeconds  = Long.parseLong(PropertyReader.getProperty("defaultWait"));
+        this.wait= new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
     }
     public WebElement waitForElementVisiblity(By locator){
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));

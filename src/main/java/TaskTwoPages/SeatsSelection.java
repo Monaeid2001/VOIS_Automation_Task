@@ -2,11 +2,11 @@ package TaskTwoPages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.WaitUtils;
 
 public class SeatsSelection {
     WebDriver driver;
+    private final WaitUtils wait;
     private final By yourSeat=By.xpath("//h5[contains(text(),'Your Seat')]");
     private final By time = By.xpath("//p[@class='time']");
     private final By date = By.xpath("//p[@class='date']");
@@ -14,25 +14,22 @@ public class SeatsSelection {
 
     public SeatsSelection(WebDriver driver) {
             this.driver = driver;
+            wait = new WaitUtils(driver);
     }
     public boolean isYourSeatDisplayed() {
-        WebDriverWait wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(5));
-       return wait.until(ExpectedConditions.visibilityOfElementLocated(yourSeat)).isDisplayed();
+       return wait.waitForElementVisiblity(yourSeat).isDisplayed();
     }
     public String getTime() {
-        WebDriverWait wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(5));
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(time)).getText();
+        return wait.waitForElementVisiblity(time).getText();
     }
     public String getDate() {
-        WebDriverWait wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(5));
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(date)).getText();
+        return wait.waitForElementVisiblity(date).getText();
     }
     public String getCurrentUrl() {
         return driver.getCurrentUrl();
     }
     public PaymentMethodPage clickConfirmSeatBtn() {
-        WebDriverWait wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(confirmSeatBtn)).click();
+        wait.waitForElementToBeClickable(confirmSeatBtn).click();
         return new PaymentMethodPage(driver);
     }
 }

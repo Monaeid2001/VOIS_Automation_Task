@@ -3,13 +3,11 @@ package TaskTwoPages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
+import utils.WaitUtils;
 
 public class HomePage {
     WebDriver driver;
+    private final WaitUtils wait;
     private final By loginRegisterBtn = By.xpath("//div[@class='login-button']/a");
     private final By EnglishBtn = By.xpath("//button[text()='English']");
     private final By departureCity = By.xpath("//label[text()='Travel from City']/following-sibling::div");
@@ -32,17 +30,16 @@ public class HomePage {
     }
 
     public HomePage(WebDriver driver) {
+
         this.driver = driver;
+        this.wait = new WaitUtils(driver);
     }
 
     public LoginPage clickLoginRegisterBtn(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(6));
         int attempts = 0;
         while (attempts < 3) {
             try {
-                new WebDriverWait(driver, Duration.ofSeconds(5));
-                       wait .until(ExpectedConditions.elementToBeClickable(loginRegisterBtn))
-                        .click();
+                       wait.waitForElementToBeClickable(loginRegisterBtn).click();
                 return new LoginPage(driver);
             } catch (StaleElementReferenceException e) {
                 attempts++;
@@ -52,91 +49,48 @@ public class HomePage {
     }
 
     public HomePage chooseEnglish(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(
-                ExpectedConditions.elementToBeClickable(EnglishBtn)
-        ).click();
+        wait.waitForElementToBeClickable(EnglishBtn).click();
         return this;
     }
     public HomePage chooseDepartureCity(String city) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(
-                ExpectedConditions.elementToBeClickable(departureCity)
-        ).click();
-        wait.until(
-                ExpectedConditions.visibilityOfElementLocated(inputField)
-        ).sendKeys(city);
-        wait.until(
-                ExpectedConditions.elementToBeClickable(getOptionLocator(city))
-        ).click();
+        wait.waitForElementToBeClickable(departureCity).click();
+        wait.waitForElementVisiblity(inputField).sendKeys(city);
+        wait.waitForElementToBeClickable(getOptionLocator(city)).click();
         return this;
     }
     public HomePage chooseDepartureStation(String station) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(
-                ExpectedConditions.elementToBeClickable(departureStation)
-        ).click();
-        wait.until(
-                ExpectedConditions.visibilityOfElementLocated(inputField)
-        ).sendKeys(station);
-        wait.until(
-                ExpectedConditions.elementToBeClickable(getOptionLocator(station))
-        ).click();
+        wait.waitForElementToBeClickable(departureStation).click();
+        wait.waitForElementVisiblity(inputField).sendKeys(station);
+        wait.waitForElementToBeClickable(getOptionLocator(station)).click();
         return this;
     }
     public HomePage chooseArrivalCity(String city) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(
-                ExpectedConditions.elementToBeClickable(arrivalCity)
-        ).click();
-        wait.until(
-                ExpectedConditions.visibilityOfElementLocated(inputField)
-        ).sendKeys(city);
-        wait.until(
-                ExpectedConditions.elementToBeClickable(getOptionLocator(city))
-        ).click();
+        wait.waitForElementToBeClickable(arrivalCity).click();
+        wait.waitForElementVisiblity(inputField).sendKeys(city);
+        wait.waitForElementToBeClickable(getOptionLocator(city)).click();
         return this;
     }
     public HomePage chooseArrivalStation(String station) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(
-                ExpectedConditions.elementToBeClickable(arrivalStation)
-        ).click();
-        wait.until(
-                ExpectedConditions.visibilityOfElementLocated(inputField)
-        ).sendKeys(station);
-        wait.until(
-                ExpectedConditions.elementToBeClickable(getOptionLocator(station))
-        ).click();
+        wait.waitForElementToBeClickable(arrivalStation).click();
+        wait.waitForElementVisiblity(inputField).sendKeys(station);
+        wait.waitForElementToBeClickable(getOptionLocator(station)).click();
         return this;
     }
     public HomePage chooseTravelDate(String monthYear, String day){
-     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-       wait.until(
-                ExpectedConditions.elementToBeClickable(chooseDate)
-        ).click();
-        while (!wait.until(ExpectedConditions.visibilityOfElementLocated(calenderHeader)).getText().contains(monthYear)){
-            wait.until(
-                    ExpectedConditions.elementToBeClickable(nextMonthBtn)
-            ).click();
+   //  WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+       wait.waitForElementToBeClickable(chooseDate).click();
+        while (!wait.waitForElementVisiblity(calenderHeader).getText().contains(monthYear)){
+            wait.waitForElementToBeClickable(nextMonthBtn).click();
         }
-        wait.until(
-                ExpectedConditions.elementToBeClickable(selectDay(day))
-        ).click();
+        wait.waitForElementToBeClickable(selectDay(day)).click();
         return this;
     }
     public BusSearchResultsPage clickSearchBtn(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(
-                ExpectedConditions.elementToBeClickable(submitTravelBtn)
-        ).click();
+        wait.waitForElementToBeClickable(submitTravelBtn).click();
         return new BusSearchResultsPage(driver);
     }
     public boolean isAccountDisplayed(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-      return  wait.until(
-                ExpectedConditions.visibilityOfElementLocated(myAccountBtn)
-        ).isDisplayed();
+      return  wait.waitForElementVisiblity(myAccountBtn).isDisplayed();
     }
 
 

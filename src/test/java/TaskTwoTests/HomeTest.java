@@ -16,9 +16,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import utils.JsonReader;
 
-public class HomeTest {
-    WebDriver driver;
-    HomePage homePage;
+public class HomeTest extends BaseTest {
+
     BusSearchResultsPage busSearchResultsPage;
     JsonReader testData;
 
@@ -44,17 +43,5 @@ public class HomeTest {
     public void precondition() {
         testData = new JsonReader("booking-data");
     }
-    @BeforeMethod
-    public void setUp() {
-        EdgeOptions options = new EdgeOptions();
-        options.addArguments("--disable-notifications");
-        options.setPageLoadStrategy(PageLoadStrategy.EAGER);
-        driver = new EdgeDriver(options);
-        driver.navigate().to("https://go-bus.com/");
-        driver.manage().window().setSize(new Dimension(1024, 768));
-    }
-    @AfterMethod
-    public void tearDown() {
-       driver.quit();
-    }
+
 }

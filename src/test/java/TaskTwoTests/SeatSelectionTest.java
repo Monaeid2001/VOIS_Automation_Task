@@ -2,20 +2,12 @@ package TaskTwoTests;
 
 import TaskTwoPages.HomePage;
 import TaskTwoPages.PaymentMethodPage;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import utils.JsonReader;
 
-public class SeatSelectionTest {
-    WebDriver driver;
-    HomePage homePage;
+public class SeatSelectionTest extends BaseTest {
     PaymentMethodPage paymentMethodPage;
     JsonReader testData;
     @Test
@@ -41,18 +33,7 @@ public class SeatSelectionTest {
     public void precondition() {
         testData = new JsonReader("booking-data");
     }
-    @BeforeMethod
-    public void setUp() {
-        EdgeOptions options = new EdgeOptions();
-        options.addArguments("--disable-notifications");
-        driver = new EdgeDriver(options);
-        driver.navigate().to("https://go-bus.com/");
-        driver.manage().window().setSize(new Dimension(1024, 768));
-    }
-    @AfterMethod
-    public void tearDown() {
-          driver.quit();
-    }
+
 
 
 }

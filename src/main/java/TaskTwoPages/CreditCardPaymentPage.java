@@ -2,13 +2,13 @@ package TaskTwoPages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.WaitUtils;
 
-import java.time.Duration;
+
 
 public class CreditCardPaymentPage {
     WebDriver driver;
+    private final WaitUtils wait;
     private final By creditCardPaymentHeader = By.xpath("//span[contains(text(),'Credit Cards')]");
     private final By creditCardNumberField= By.cssSelector("iframe.gw-proxy-number");
     private final By nameOnCardField= By.cssSelector("iframe.gw-proxy-nameOnCard");
@@ -19,15 +19,14 @@ public class CreditCardPaymentPage {
     private final By inputInsideFrame= By.tagName("input");
     public CreditCardPaymentPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WaitUtils(driver);
     }
     public String getCreditCardPaymentHeader() {
-        WebDriverWait wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(5));
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(creditCardPaymentHeader)).getText();
+        return wait.waitForElementVisiblity(creditCardPaymentHeader).getText();
     }
     public void switchToFrameAndEnterText(By frameLocator,String text){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameLocator));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(inputInsideFrame)).sendKeys(text);
+        wait.waitForFrameAndSwitch(frameLocator);
+        wait.waitForElementVisiblity(inputInsideFrame).sendKeys(text);
         driver.switchTo().defaultContent();
     }
 
@@ -40,8 +39,7 @@ public class CreditCardPaymentPage {
         return this;
     }
     public CreditCardPaymentPage acceptTermsAndConditions() {
-        WebDriverWait wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(acceptTermsCheckbox)).click();
+        wait.waitForElementToBeClickable(acceptTermsCheckbox).click();
         return this;
     }
 

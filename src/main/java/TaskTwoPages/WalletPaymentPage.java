@@ -2,17 +2,17 @@ package TaskTwoPages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import utils.WaitUtils;
 
 public class WalletPaymentPage {
     WebDriver driver;
+    private final WaitUtils wait;
     private final By bookingCode = By.xpath("//div[contains(text(),'Booking Code')]");
     public WalletPaymentPage(WebDriver driver) {
         this.driver = driver;
+        wait = new WaitUtils(driver);
     }
     public String getBookingCode() {
-        WebDriverWait wait = new WebDriverWait(driver, java.time.Duration.ofSeconds(5));
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(bookingCode)).getText();
+        return wait.waitForElementVisiblity(bookingCode).getText();
     }
 }

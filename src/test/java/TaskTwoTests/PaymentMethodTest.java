@@ -1,7 +1,6 @@
 package TaskTwoTests;
 
 import TaskTwoPages.CreditCardPaymentPage;
-import TaskTwoPages.HomePage;
 import TaskTwoPages.WalletPaymentPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -28,8 +27,9 @@ public class PaymentMethodTest extends BaseTest {
                         .clickBookingTripBtn()
                         .clickConfirmSeatBtn()
                         .chooseCreditCardPaymentOption()
+                        .acceptTermsAndConditions()
                         .enterCreditCardDetails(testData.getJsonData("card.number"), testData.getJsonData("card.name"), testData.getJsonData("card.expiryMonth"), testData.getJsonData("card.expiryYear"),testData.getJsonData("card.cvv"))
-                        .acceptTermsAndConditions();
+        ;
         Assert.assertEquals(creditCardPaymentPage.getCreditCardPaymentHeader(), "Credit Cards", "Credit card payment header does not match expected value.");
 
     }

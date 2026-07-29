@@ -20,6 +20,9 @@ public class WaitUtils {
     public WebElement waitForElementToBeClickable(By locator){
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
+    public WebElement waitForElementToBeClickable(WebElement element){
+        return wait.until(ExpectedConditions.elementToBeClickable(element));
+    }
 
     public void waitForFrameAndSwitch(By frameLocator) {
         wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameLocator));

@@ -1,6 +1,5 @@
 package TaskTwoTests;
 
-import TaskTwoPages.HomePage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -16,7 +15,7 @@ public class RegisterTest extends BaseTest {
                         .clickRegisterBtn()
                         .register(testData.getJsonData("name")
                                 , testData.getJsonData("phone")
-                                , testData.getJsonData("email")
+                                , testData.getJsonData("email")+System.currentTimeMillis()+"@gmail.com"
                                 , testData.getJsonData("password")
                                 , testData.getJsonData("confirmPassword"));
         Assert.assertTrue(homePage.isAccountDisplayed(), "User is not registered.");

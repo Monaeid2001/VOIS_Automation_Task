@@ -10,6 +10,7 @@ public class EdgeFactory implements BrowserDriverFactory {
     public WebDriver createDriver() {
         EdgeOptions options = new EdgeOptions();
         options.addArguments("--disable-notifications");
+        options.addArguments("--disable-popup-blocking");
         options.setPageLoadStrategy(PageLoadStrategy.EAGER);
         return new EdgeDriver(options);
     }

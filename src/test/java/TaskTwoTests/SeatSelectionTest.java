@@ -1,6 +1,5 @@
 package TaskTwoTests;
 
-import TaskTwoPages.HomePage;
 import TaskTwoPages.PaymentMethodPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;

@@ -39,7 +39,7 @@ public class HomePage {
         int attempts = 0;
         while (attempts < 3) {
             try {
-                       wait.waitForElementToBeClickable(loginRegisterBtn).click();
+                wait.waitForElementToBeClickable(loginRegisterBtn).click();
                 return new LoginPage(driver);
             } catch (StaleElementReferenceException e) {
                 attempts++;
@@ -77,7 +77,6 @@ public class HomePage {
         return this;
     }
     public HomePage chooseTravelDate(String monthYear, String day){
-   //  WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
        wait.waitForElementToBeClickable(chooseDate).click();
         while (!wait.waitForElementVisiblity(calenderHeader).getText().contains(monthYear)){
             wait.waitForElementToBeClickable(nextMonthBtn).click();

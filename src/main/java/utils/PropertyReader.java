@@ -1,25 +1,39 @@
 package utils;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.util.Collection;
 import java.util.Properties;
 
 public class PropertyReader {
-    private static Properties properties;
-
-    public static String getProperty(String key) {
+    public static Properties loadProperties(){
         try {
-            if (properties == null) {
-                properties = new Properties();
-                properties.load(new FileInputStream("src/main/resources/config.properties"));
-            }
-            String systemValue = System.getProperty(key);
-            if (systemValue != null) {
-                return systemValue;
-            }
-            return properties.getProperty(key);
-        } catch (Exception e) {
-            System.out.println("Error reading property: " + key + " - " + e.getMessage());
+            Properties properties = new Properties();
+            Collection<File> propertiesFiles;
+            propertiesFiles = FileUtils.listFiles(new File("src/main/resources"), new String[]{"properties"}, true);
+            propertiesFiles.forEach(file -> {
+                try {
+                    properties.load(new FileInputStream(file));
+                } catch (Exception e) {
+                    System.out.println("Exception occurred while loading properties from file: " +file.getName() + " - " + e.getMessage());
+                }
+                properties.putAll(System.getProperties());
+                System.getProperties().putAll(properties);
+            });
+            return properties;
+        }catch (Exception e){
+            System.out.println("Exception occurred while loading properties: " + e.getMessage());
+            return null;
+        }
+    }
+    public static String getProperty(String key){
+        try{
+            return System.getProperty(key);
+        }catch (Exception e){
+            System.out.println("Exception occurred while getting property for key: " + key + " - " + e.getMessage());
             return "";
         }
+
     }
 }

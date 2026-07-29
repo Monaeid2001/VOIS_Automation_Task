@@ -1,6 +1,5 @@
 package TaskTwoTests;
 
-import TaskTwoPages.HomePage;
 import TaskTwoPages.LoginPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -20,7 +19,6 @@ public class LoginTest extends BaseTest {
     }
     @Test
     public void inValidLoginTest(){
-     //   homePage = new HomePage(driver);
         loginPage =
                 homePage.chooseEnglish()
                         .clickLoginRegisterBtn()

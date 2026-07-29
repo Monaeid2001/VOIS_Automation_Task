@@ -12,6 +12,7 @@ public class ChromeFactory implements BrowserDriverFactory {
     public WebDriver createDriver() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-notifications");
+        options.addArguments("--disable-popup-blocking");
         options.setPageLoadStrategy(PageLoadStrategy.EAGER);
         return new ChromeDriver(options);
     }

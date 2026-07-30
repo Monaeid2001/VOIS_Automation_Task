@@ -1,0 +1,33 @@
+package pages.taskOnePages.scenarioTwo;
+
+import org.openqa.selenium.*;
+import utils.WaitUtils;
+
+public class HomePage {
+   private final WebDriver driver;
+   private final WaitUtils wait;
+   private final By TodaysDealsButton = By.xpath("//a[contains(text(),\"Today's Deals\")]");
+    private final By DismissButton = By.xpath("//span[contains(text(),'Dismiss')]/preceding-sibling::input");
+
+   public HomePage(WebDriver driver) {
+       this.driver = driver;
+       wait = new WaitUtils(driver);
+   }
+   public TodaysDealsPage clickOnTodaysDeals() {
+       wait.waitForElementToBeClickable(TodaysDealsButton).click();
+       return new TodaysDealsPage(driver);
+   }
+
+    public HomePage ClickOnDismissButton() {
+        try {
+            wait.waitForElementToBeClickable(DismissButton).click();
+        } catch (TimeoutException e) {
+            System.out.println("no pop up appears");
+        }
+        return this;
+    }
+
+}
+
+
+

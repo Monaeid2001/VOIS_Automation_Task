@@ -27,4 +27,7 @@ public class WaitUtils {
     public void waitForFrameAndSwitch(By frameLocator) {
         wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameLocator));
     }
+    public void waitForUrlToContain(String urlFragment) {
+        wait.until(ExpectedConditions.urlContains(urlFragment));
+    }
 }

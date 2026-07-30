@@ -1,23 +1,57 @@
 package TaskOneTests.ScenarioOne;
 
+import driver.DriverManager;
+import io.qameta.allure.*;
+import org.openqa.selenium.Dimension;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-import taskOnePages.scenarioOne.CartPage;
+import org.testng.annotations.*;
+import pages.taskOnePages.scenarioOne.CartPage;
+import pages.taskOnePages.scenarioOne.HomePage;
+import pages.taskOnePages.scenarioOne.ProductPage;
+import pages.taskOnePages.scenarioOne.SearchResultsPage;
 import utils.JsonReader;
-
+import utils.PropertyReader;
+@Epic("Amazon First Scenario")
+@Feature("Adding to cart")
+@Story("Adding a product to the cart after searching for it")
+@Severity(SeverityLevel.CRITICAL)
+@Owner("Monmon")
 public class CartTest extends BaseTest {
     CartPage cartPage;
+    SearchResultsPage searchResultsPage;
+    ProductPage productPage;
     @Test
+    public void searchForItemTest() {
+        searchResultsPage =
+                homePage
+                        .searchForItem(testData.getJsonData("searchedItem"));
+        Assert.assertEquals(searchResultsPage.getSearchResultsText(), "Results", "Search results text does not match expected value.");
+    }
+    @Test(dependsOnMethods = "searchForItemTest")
+    public void clickOnProductTest(){
+        productPage =
+                searchResultsPage
+                        .clickOnProduct();
+        Assert.assertTrue(productPage.isProductTitleDisplayed(), "Product page is not displayed as expected.");
+
+    }
+    @Test(dependsOnMethods ={"searchForItemTest","clickOnProductTest"})
     public void addItemToCart() {
-        cartPage = homePage.searchForItem(testData.getJsonData("searchedItem"))
-                .clickOnFirstProduct()
+        cartPage = productPage
                 .clickAddToCart();
         Assert.assertEquals(cartPage.getSuccessMessage(), testData.getJsonData("messages.success"), "Success message does not match expected value.");
 
     }
     @BeforeClass
-    public void precondition() {
+    public void setUp() {
         testData = new JsonReader("amazon-data");
+        driver = DriverManager.createDriver(PropertyReader.getProperty("browser"));
+        driver.navigate().to(PropertyReader.getProperty("baseUrl2"));
+        driver.manage().window().setSize(new Dimension(1024, 768));
+        homePage = new HomePage(driver);    }
+
+    @AfterClass
+    public void tearDown() {
+        driver.quit();
     }
 }

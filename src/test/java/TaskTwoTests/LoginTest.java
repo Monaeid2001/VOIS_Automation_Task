@@ -1,10 +1,23 @@
 package TaskTwoTests;
 
-import TaskTwoPages.LoginPage;
+import driver.DriverManager;
+import io.qameta.allure.*;
+import org.openqa.selenium.Dimension;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import pages.TaskTwoPages.HomePage;
+import pages.TaskTwoPages.LoginPage;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import utils.JsonReader;
+import utils.PropertyReader;
+
+@Epic("Go Bus")
+@Feature("Login")
+@Story("Login with valid and invalid credentials")
+@Severity(SeverityLevel.CRITICAL)
+@Owner("Monmon")
 
 public class LoginTest extends BaseTest {
     LoginPage loginPage;
@@ -32,5 +45,17 @@ public class LoginTest extends BaseTest {
     public void precondition() {
         testData = new JsonReader("login-data");
     }
+    @BeforeMethod
+        public void setUp() {
+        driver = DriverManager.createDriver(PropertyReader.getProperty("browser"));
+        driver.navigate().to(PropertyReader.getProperty("baseUrl"));
+        driver.manage().window().setSize(new Dimension(1024, 768));
+       homePage = new HomePage(driver);
+    }
+    @AfterMethod
+    public void tearDown() {
+        driver.quit();
+    }
+
 
 }

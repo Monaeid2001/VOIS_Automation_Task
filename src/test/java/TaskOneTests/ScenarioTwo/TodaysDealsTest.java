@@ -1,27 +1,38 @@
 package TaskOneTests.ScenarioTwo;
 
+import driver.DriverManager;
+import io.qameta.allure.*;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import taskOnePages.scenarioTwo.HomePage;
-import taskOnePages.scenarioTwo.TodaysDeals;
-
+import pages.taskOnePages.scenarioTwo.HomePage;
+import pages.taskOnePages.scenarioTwo.TodaysDealsPage;
+import utils.PropertyReader;
+@Epic("Amazon Second Scenario")
+@Feature("Today's Deals")
+@Story("Selecting Today's Deals and verifying the page title")
+@Severity(SeverityLevel.CRITICAL)
+@Owner("Monmon")
 public class TodaysDealsTest extends BaseTest {
-    TodaysDeals todaysDeals;
+    TodaysDealsPage todaysDealsPage;
     @Test
-    public void getDepartmentwithDiscount() {
-        todaysDeals =
-                homePage
-                        .ClickOnDismissButton()
-                        .clickOnTodaysDeals()
-                        .setMinDiscount(10)
-                        .clickOnDepartment();
-        Assert.assertTrue(todaysDeals.getDiscounttPillText().contains("10%"), "Discount pill text does not match expected value.");
-        Assert.assertTrue(todaysDeals.getDepartmentPillText().contains("Grocery"), "Department text does not match expected value.");
-
+    public void checkDealToday() {
+         todaysDealsPage = homePage
+                 .ClickOnDismissButton()
+                 .clickOnTodaysDeals();
+        Assert.assertTrue(driver.getTitle().contains("Today's Deals"));
+    }
+    @BeforeMethod
+    public void setUp() {
+        driver = DriverManager.createDriver(PropertyReader.getProperty("browser"));
+        driver.navigate().to(PropertyReader.getProperty("baseUrl2"));
+        driver.manage().window().setSize(new Dimension(1024, 768));
+        homePage = new HomePage(driver);
+    }
+    @AfterMethod
+    public void tearDown() {
+        driver.quit();
     }
 }

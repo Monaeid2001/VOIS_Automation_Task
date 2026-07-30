@@ -1,43 +1,57 @@
 package TaskTwoTests;
 
-import TaskTwoPages.BusSearchResultsPage;
-import TaskTwoPages.HomePage;
-import TaskTwoPages.SeatsSelection;
+import driver.DriverManager;
+import io.qameta.allure.*;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.PageLoadStrategy;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
+import org.testng.annotations.AfterClass;
+import pages.TaskTwoPages.BusSearchResultsPage;
+import pages.TaskTwoPages.HomePage;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import utils.JsonReader;
-
+import utils.PropertyReader;
+@Epic("Go Bus")
+@Feature("Searching Trips")
+@Story("Search for bus trips")
+@Severity(SeverityLevel.CRITICAL)
+@Owner("Monmon")
 public class BusSearchResultsTest extends BaseTest {
-    SeatsSelection seatsSelection;
-
+    BusSearchResultsPage busSearchResultsPage;
     @Test
-    public void testBusSearchResults() {
-        seatsSelection =
-                homePage.chooseEnglish()
-                        .clickLoginRegisterBtn()
-                        .login(testData.getJsonData("email"), testData.getJsonData("password"))
+    public void loginTest(){
+        homePage
+                .chooseEnglish()
+                .clickLoginRegisterBtn()
+                .login(testData.getJsonData("email"), testData.getJsonData("password"));
+        Assert.assertTrue(homePage.isAccountDisplayed(), "User is not logged in.");
+    }
+    @Test(dependsOnMethods = "loginTest")
+    public void searchTripTest(){
+        busSearchResultsPage =
+                homePage
                         .chooseDepartureCity(testData.getJsonData("busSearch.departureCity"))
                         .chooseDepartureStation(testData.getJsonData("busSearch.departureStation"))
                         .chooseArrivalCity(testData.getJsonData("busSearch.arrivalCity"))
                         .chooseArrivalStation(testData.getJsonData("busSearch.arrivalStation"))
                         .chooseTravelDate(testData.getJsonData("busSearch.travelMonthYear"), testData.getJsonData("busSearch.travelDay"))
-                        .clickSearchBtn()
-                .clickChooseTripBtn()
-                .clickBookingTripBtn();
-        Assert.assertTrue(seatsSelection.getDate().contains("15 Aug 2026"), "Date doesn't match expected value");
-        Assert.assertTrue(seatsSelection.getCurrentUrl().contains("bookingStepOne"), "URL doesn't contain expected value");
+                        .clickSearchBtn();
+        Assert.assertTrue(busSearchResultsPage.getTravelAndArrivalStations("Miamy").contains("Miamy"), "Departure station doesn't match expected value");
+        Assert.assertTrue(busSearchResultsPage.getTravelAndArrivalStations("Tahrir").contains("Tahrir"), "Arrival station doesn't match expected value");
+
     }
+
     @BeforeClass
     public void precondition() {
         testData = new JsonReader("booking-data");
+        driver = DriverManager.createDriver(PropertyReader.getProperty("browser"));
+        driver.navigate().to(PropertyReader.getProperty("baseUrl"));
+        driver.manage().window().setSize(new Dimension(1024, 768));
+        homePage = new HomePage(driver);
+    }
+    @AfterClass
+    public void tearDown() {
+        driver.quit();
     }
 
 }

@@ -8,12 +8,22 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 
 public class ChromeFactory implements BrowserDriverFactory {
-    @Override
-    public WebDriver createDriver() {
+    private ChromeOptions getOptions() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-notifications");
         options.addArguments("--disable-popup-blocking");
         options.setPageLoadStrategy(PageLoadStrategy.EAGER);
-        return new ChromeDriver(options);
+        String executionType = System.getProperty("executionType");
+        if(executionType.equalsIgnoreCase("LocalHeadless")) {
+            options.addArguments("--headless=new");
+        } else if (!executionType.equalsIgnoreCase("Local")) {
+            throw new IllegalArgumentException(
+                    "Invalid executionType: " + executionType + " (Supported: Local, LocalHeadless)");
+        }
+        return options;
+    }
+    @Override
+    public WebDriver createDriver() {
+        return new ChromeDriver(getOptions());
     }
 }

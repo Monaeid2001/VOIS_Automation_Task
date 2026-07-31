@@ -8,12 +8,22 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class FirefoxFactory implements BrowserDriverFactory {
-    @Override
-    public WebDriver createDriver() {
+    private FirefoxOptions getOptions() {
         FirefoxOptions options = new FirefoxOptions();
         // Disable notifications
         options.addPreference("dom.webnotifications.enabled", false);
         options.setPageLoadStrategy(PageLoadStrategy.EAGER);
-        return new FirefoxDriver(options);
+        String executionType = System.getProperty("executionType");
+        if (executionType.equalsIgnoreCase("LocalHeadless")) {
+            options.addArguments("--headless=new");
+        } else if (!executionType.equalsIgnoreCase("Local")) {
+            throw new IllegalArgumentException(
+                    "Invalid executionType: " + executionType + " (Supported: Local, LocalHeadless)");
+        }
+        return options;
+    }
+    @Override
+    public WebDriver createDriver() {
+        return new FirefoxDriver(getOptions());
     }
 }

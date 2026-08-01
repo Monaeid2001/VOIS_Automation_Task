@@ -20,6 +20,7 @@ public class TodaysDealsTest extends BaseTest {
     @Test
     public void checkDealToday() {
          todaysDealsPage = homePage
+                 .dismissContinueShoppingPageIfPresent()
                  .ClickOnDismissButton()
                  .clickOnTodaysDeals();
         Assert.assertTrue(driver.getTitle().contains("Today's Deals"));

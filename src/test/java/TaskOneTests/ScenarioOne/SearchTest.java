@@ -20,10 +20,11 @@ public class SearchTest extends BaseTest {
     SearchResultsPage searchResultsPage;
 
     @Test
-    public void searchForItem(){
+    public void searchForItem() {
         searchResultsPage =
                 homePage
-                .searchForItem(testData.getJsonData("searchedItem"));
+                        .dismissContinueShoppingPageIfPresent()
+                        .searchForItem(testData.getJsonData("searchedItem"));
 
         Assert.assertEquals(searchResultsPage.getSearchResultsText(), "Results", "Search results text does not match expected value.");
     }

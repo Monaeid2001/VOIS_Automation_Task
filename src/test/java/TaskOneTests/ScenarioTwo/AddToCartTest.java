@@ -24,6 +24,7 @@ public class AddToCartTest extends BaseTest {
     TodaysDealsPage todaysDealsPage;
     @Test public void chooseTodaysDeals() {
         todaysDealsPage = homePage
+                .dismissContinueShoppingPageIfPresent()
                 .ClickOnDismissButton()
                 .clickOnTodaysDeals();
         Assert.assertTrue(driver.getTitle().contains("Today's Deals"));

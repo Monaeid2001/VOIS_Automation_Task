@@ -24,6 +24,7 @@ public class ProductTest extends BaseTest {
     public void searchForItemTest() {
         searchResultsPage =
                 homePage
+                        .dismissContinueShoppingPageIfPresent()
                         .searchForItem(testData.getJsonData("searchedItem"));
         Assert.assertEquals(searchResultsPage.getSearchResultsText(), "Results", "Search results text does not match expected value.");
     }
